@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
 
-const Form = ({ inputTitle = '', inputDescription = '', isFav = false } = {}) => { 
-    const [title, setTitle] = useState(inputTitle);
-    const [description, setDescription] = useState(inputDescription);
-    const [isFavorite, setFavorite] = useState(isFav);
+
+const Form = ({ onCreatedAd }) => { 
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [isFavorite, setFavorite] = useState(false);
     
     const onFavorite = () => setFavorite(!isFavorite);
     const onTitleChange = (event) => setTitle(event.target.value);
     const onDescriptionChange = (event) => setDescription(event.target.value);
+
+    const onFormSubmit = (ev) => {
+        ev.preventDefault();
+        onCreatedAd({
+            title,
+            description,
+            isFavorite       
+        })
+    }
     
     return (
-        <div>
+        <form onSubmit={onFormSubmit}>
             <input type="text" onChange={onTitleChange} placeholder='Title' value={title} />
             <input type="text" onChange={onDescriptionChange} placeholder='Description' value={description} />
             <label>
                 <input type="checkbox" onChange={onFavorite} checked={isFavorite} />
                 <span>Favorite</span>
             </label>
-        </div>
+            <input type="submit" />
+        </form>
     );
 }; 
 export default Form;
